@@ -6,15 +6,15 @@ workspace:
   specs:
     kubernetes:
       cpu:
-        value: 1
+        value: 4
       image:
         value: bencdr/projects:latest # Rename to the same as your image
       container-based-vm:
         value: true
       memory:
-        value: 1
+        value: 8
       disk:
-        value: 10
+        value: 20
   configure:
     start:
       value:
