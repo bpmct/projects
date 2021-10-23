@@ -11,8 +11,8 @@ RUN mkdir -p $NVM_DIR
 RUN chown coder:coder $NVM_DIR
 
 USER coder
-# Install nvm
 
+# Install nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash \
     && . $NVM_DIR/nvm.sh \
     # Install any Node versions we need
