@@ -1,3 +1,21 @@
 # Include custom applications in your Coder workspace
 # see https://coder.com/docs/coder/latest/workspaces/applications
 apps:
+  - name: code-server
+    scheme: http
+    port: 8080
+    # Working directory
+    working-directory: /home/coder
+    # File path to icon used in application launcher
+    icon-path: /coder/apps/code-server/icon.png
+    # VNC server will be started by default in this image
+    command: "code-server"
+    # Array of arguments for command
+    args: [
+      "--auth=none"
+    ]
+    health-check:
+      http:
+        scheme: "http"
+        path: "/"
+        port: 8080
