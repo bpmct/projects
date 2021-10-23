@@ -5,9 +5,14 @@ USER root
 # Install some packages
 RUN sudo apt-get install -y nano tmux tmate
 
-USER coder
+# Set NVM_DIR outside of the home directory so it doesn't persist across rebuilds
+ENV NVM_DIR=/usr/bin/nvm
+RUN mkdir -p $NVM_DIR
+RUN chown coder:coder $NVM_DIR
 
+USER coder
 # Install nvm
+
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash \
     && . $NVM_DIR/nvm.sh \
     # Install any Node versions we need
