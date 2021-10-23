@@ -17,10 +17,7 @@ USER coder
 # Install latest code-server
 ARG VERSION=3.12.0
 ARG ARCH=amd64
-RUN curl -L "https://github.com/cdr/code-server/releases/download/v$VERSION/code-server_${VERSION}_$ARCH.deb" -o \
-    "/tmp/code-server_${VERSION}_$ARCH.deb" && \
-    dpkg -i "/tmp/code-server_${VERSION}_$ARCH.deb" && \
-    rm "/tmp/code-server_${VERSION}_$ARCH.deb"
+RUN curl -fsSL https://code-server.dev/install.sh | sh
 
 # Install nvm
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash \
