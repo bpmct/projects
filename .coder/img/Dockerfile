@@ -10,7 +10,7 @@ ENV NVM_DIR=/usr/bin/nvm
 RUN mkdir -p $NVM_DIR
 RUN chown coder:coder $NVM_DIR
 
-COPY ./coder /coder
+COPY coder /coder
 
 USER coder
 
