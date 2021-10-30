@@ -27,7 +27,10 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | b
     && nvm install 15 \
     && nvm alias default 15 \
     && nvm use default \
-    # Install global packages on the default version of node
-    && npm install --global yarn expo-cli
+    # Install yarn
+    && npm install --global yarn
+
+# Install global packages (/usr/bin)
+RUN sudo npm install --g expo
 
 ENV PATH="/home/coder/.yarn/bin:${PATH}"
