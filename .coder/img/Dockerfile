@@ -12,6 +12,10 @@ RUN chown coder:coder $NVM_DIR
 
 COPY coder /coder
 
+# Fix locales error in code-server
+RUN locale-gen "en_US.UTF-8" && \
+    dpkg-reconfigure locales
+
 USER coder
 
 # Install latest code-server
