@@ -17,24 +17,6 @@ COPY coder /coder
 RUN locale-gen "en_US.UTF-8" && \
     dpkg-reconfigure locales
 
-USER coder
-
-# Install latest code-server
-ARG VERSION=3.12.0
-ARG ARCH=amd64
-RUN curl -fsSL https://code-server.dev/install.sh | sh
-
-# Install nvm
-RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash \
-    && . $NVM_DIR/nvm.sh \
-    # Install any Node versions we need
-    && nvm install 12 \
-    && nvm install 15 \
-    && nvm alias default 15 \
-    && nvm use default \
-    # Install yarn
-    && npm install --global yarn expo-cli
-
 # Install Go
 RUN curl -L "https://dl.google.com/go/go1.17.4.linux-amd64.tar.gz" | tar -C /usr/local -xzvf -
 ENV GOROOT /usr/local/go
@@ -55,6 +37,24 @@ RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y \
 RUN mkdir -p /opt/goland
 RUN curl -L "https://download.jetbrains.com/product?code=GO&latest&distribution=linux" | tar -C /opt/goland --strip-components 1 -xzvf -
 RUN ln -s /opt/goland/bin/goland.sh /usr/bin/goland
+
+USER coder
+
+# Install latest code-server
+ARG VERSION=3.12.0
+ARG ARCH=amd64
+RUN curl -fsSL https://code-server.dev/install.sh | sh
+
+# Install nvm
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash \
+    && . $NVM_DIR/nvm.sh \
+    # Install any Node versions we need
+    && nvm install 12 \
+    && nvm install 15 \
+    && nvm alias default 15 \
+    && nvm use default \
+    # Install yarn
+    && npm install --global yarn expo-cli
 
 
 ENV PATH="/home/coder/.yarn/bin:${PATH}"
