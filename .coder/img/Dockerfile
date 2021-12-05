@@ -3,7 +3,8 @@ FROM codercom/enterprise-base:ubuntu
 USER root
 
 # Install some packages
-RUN sudo apt-get install -y nano tmux tmate
+RUN apt-get update && \
+    apt-get install -y nano tmux tmate openssh-server
 
 # Set NVM_DIR outside of the home directory so it doesn't persist across rebuilds
 ENV NVM_DIR=/usr/bin/nvm
@@ -33,5 +34,27 @@ RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | b
     && nvm use default \
     # Install yarn
     && npm install --global yarn expo-cli
+
+# Install Go
+RUN curl -L "https://dl.google.com/go/go1.17.4.linux-amd64.tar.gz" | tar -C /usr/local -xzvf -
+ENV GOROOT /usr/local/go
+ENV PATH $PATH:$GOROOT/bin
+ENV GOPATH /home/coder/go
+ENV GOBIN $GOPATH/bin
+ENV PATH $PATH:$GOBIN
+
+# Packages required for multi-editor support
+RUN DEBIAN_FRONTEND="noninteractive" apt-get install -y \
+    libxtst6 \
+    libxrender1 \
+    libfontconfig1 \
+    libxi6 \
+    libgtk-3-0
+
+# Install GoLand
+RUN mkdir -p /opt/goland
+RUN curl -L "https://download.jetbrains.com/product?code=GO&latest&distribution=linux" | tar -C /opt/goland --strip-components 1 -xzvf -
+RUN ln -s /opt/goland/bin/goland.sh /usr/bin/goland
+
 
 ENV PATH="/home/coder/.yarn/bin:${PATH}"
